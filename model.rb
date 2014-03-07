@@ -21,8 +21,8 @@ class Entry
   include MongoMapper::Document
   
   key :title, String
-  key :url, String
+  key :url, String, :required => true
   key :author, String
-  key :content, String
+  key :content, String, :required => true, :allow_blank = false
   key :published, Date
 end

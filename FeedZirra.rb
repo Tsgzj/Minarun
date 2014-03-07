@@ -10,8 +10,14 @@
 #
 require 'feedzirra'
 require 'nokogiri'
+require 'mongo'
 
-Feedzirra::Feed.fetch_and_parse("http://www.theverge.com/rss/index.xml").entries.each do |e|
-  puts Nokogiri::HTML(e.content).text
+include Mongo
+
+feed = Feedzirra::Feed.fetch_and_parse("http://www.theverge.com/rss/index.xml")
+entry = feed.entry.first
+
+db = Mongo::Connection.new["feeds"]
+db['']
 end
 
