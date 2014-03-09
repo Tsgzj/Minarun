@@ -11,12 +11,12 @@
 #
 # routes
 get '/' do
-  erb :index
+  haml :index
 end
 
 get '/:name' do
   @name = params[:name]
-  erb :name
+  haml :name
 end
 
 not_found do
