@@ -9,15 +9,24 @@
 # Organization: Nanjing University
 #
 require 'feedzirra'
-require 'nokogiri'
-require 'mongo'
+require 'data_mapper'
+require "./model"
 
-include Mongo
 
 feed = Feedzirra::Feed.fetch_and_parse("http://www.theverge.com/rss/index.xml")
-entry = feed.entry.first
 
-db = Mongo::Connection.new["feeds"]
-db['']
+feed.entries.each do |entry|
+  puts entry.title + " " + entry.url + "\n" + entry.content + "\n" 
+  Entry.create(title: entry.title, url: entry.url, author: entry.author, content:
+  entry.content, published: entry.published)
+  #puts entry.published
 end
+
+
+
+
+
+
+
+
 

@@ -9,16 +9,12 @@
 # Organization: Nanjing University
 #
 require 'sinatra'
-require 'mongo'
-require 'bson'
-require 'mongo_mapper'
+require 'data_mapper'
+require 'haml'
 require "./routes"
 require "./model"
 require "./helpers"
-
-include Mongo
-
-configure do
-  MongoMapper.database = 'feeds'
-end
+#require 'mongo'
+#require 'mongo_mapper'
+#require 'bson'
 

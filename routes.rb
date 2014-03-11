@@ -11,14 +11,16 @@
 #
 # routes
 get '/' do
+  @entries = Entry.all
   haml :index
 end
 
-get '/:name' do
-  @name = params[:name]
-  haml :name
-end
+# get '/:name' do
+#   @name = params[:name]
+#   haml :name
+# end
 
 not_found do
   "Whoops! You requested a route that wasn't available."
 end
+  

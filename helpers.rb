@@ -8,6 +8,3 @@
 # Author: Sun Wenxiang <wxsun1991@gmail.com>
 # Organization: Nanjing University
 #
-helpers do
-  def 
-end
