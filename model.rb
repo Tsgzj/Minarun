@@ -9,23 +9,12 @@
 # Organization: Nanjing University
 #
 # class Feed
-  
+
 #   key :title, String
 #   key :feed_url, String
 #   key :last_modified, Date
 #   many :entries
 # end
-
-# class Entry
-#   include MongoMapper::Document
-  
-#   key :title, String
-#   key :url, String, :required => true
-#   key :author, String
-#   key :content, String, :required => true, :allow_blank => false
-#   key :published, Date
-# end
-
 
 DataMapper.setup(:default, ENV['DATABASE_URL'] || "sqlite3://#{Dir.pwd}/feeds.db")
 
@@ -35,9 +24,20 @@ class Entry
   property :id, Serial
   property :title, Text, :required => true
   property :url, Text, :required => true
-  property :author, String
+  property :author, Text
   property :content, Text, :required => true
   property :published, DateTime
+end
+
+class Feed
+  include DataMapper::Resource
+  
+  property :id, Serial
+  property :title, Text
+  property :custom_title, Text
+  property :feed_url, Text, :required => true, :unique => true
+  property :last_modified, DateTime
+  has n, :entries, :constraint => :destroy
 end
 
 DataMapper.finalize
