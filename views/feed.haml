@@ -1,0 +1,14 @@
+%title
+  Feeds
+%body
+  %h1 Feeds
+  - @feeds.each do |feed|
+    - if feed.custom_title == nil
+     - title = feed.title
+     - else
+     - title = feed.custom_title
+     - end
+            
+      %li.title= title
+      %li.feed_url= feed.feed_url
+      %p

@@ -22,6 +22,7 @@ class Entry
   include DataMapper::Resource
   
   property :id, Serial
+  property :feed_url, Text, :required => true
   property :title, Text, :required => true
   property :url, Text, :required => true
   property :author, Text
@@ -37,7 +38,6 @@ class Feed
   property :custom_title, Text
   property :feed_url, Text, :required => true, :unique => true
   property :last_modified, DateTime
-  has n, :entries, :constraint => :destroy
 end
 
 DataMapper.finalize

@@ -10,7 +10,7 @@
 #
 require 'sinatra'
 require 'data_mapper'
-require 'haml'
+require 'slim'
 require "./routes"
 require "./model"
 require "./helpers"

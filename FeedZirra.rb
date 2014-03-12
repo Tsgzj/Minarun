@@ -12,27 +12,18 @@ require 'feedzirra'
 require 'data_mapper'
 require "./model"
 
-
-#feed = Feedzirra::Feed.fetch_and_parse("http://www.theverge.com/rss/index.xml")
-feed_urls = Array.new
-
-Feed.all.each do |feed|
-  feed_urls.insert(feed_urls.length, feed.feed_url)
+Feed.all.each do |e|
+  feed = Feedzirra::Feed.fetch_and_parse(e.feed_url)
+  feed.entries.each do |entry|
+    #judge whether the entry is new by compare time published
+    if DateTime.parse(entry.published.to_s) > DateTime.parse(e.last_modified.to_s)
+      Entry.create(title: entry.title, feed_url: e.feed_url, url: entry.url, author: entry.author, content: entry.content, published: entry.published)
+      puts "update!"
+    end
+  end
+  
+  e.update(last_modified: feed.last_modified) #update the modified time for next fetch
 end
-
-puts feed_urls
-# feed.entries.each do |entry|
-#   #puts entry.title + " " + entry.url + "\n" + entry.content + "\n" 
-#   #Entry.create(title: entry.title, url: entry.url, author: entry.author, content:
-#   entry.content, published: entry.published)
-#   #puts entry.published
-# end
-
-
-
-
-
-
 
 
 

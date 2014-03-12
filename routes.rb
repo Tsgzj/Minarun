@@ -12,15 +12,17 @@
 # routes
 get '/' do
   @entries = Entry.all
-  haml :index
+  slim :index
 end
 
-# get '/:name' do
-#   @name = params[:name]
-#   haml :name
-# end
+get '/feeds' do
+  @feeds = Feed.all
+  slim :feed
+end
+
+#post '/feeds' do
 
 not_found do
   "Whoops! You requested a route that wasn't available."
 end
-  
+

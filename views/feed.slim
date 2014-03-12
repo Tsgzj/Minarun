@@ -1,0 +1,14 @@
+doctype html
+html
+  head
+    title Feeds
+      
+  body
+    h1 List of your Feeds
+    - @feeds.each do |feed|
+      tr
+        td.title = feed.title
+        td.feed_url = feed.feed_url
+          
+          
+          

@@ -1,0 +1,11 @@
+doctype html
+html
+  head
+    title Minarun
+      
+  body
+    h1 An RSS reader filter duplications
+    - @entries.each do |entry|
+       = entry.title
+       == entry.content
+                          
