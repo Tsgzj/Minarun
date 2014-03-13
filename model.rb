@@ -9,12 +9,20 @@
 # Organization: Nanjing University
 #
 # class Feed
-
 #   key :title, String
 #   key :feed_url, String
 #   key :last_modified, Date
-#   many :entries
 # end
+
+# class Entry
+#   key :feed_url, String
+#   key :title, String
+#   key :url, String
+#   key :author, String
+#   key :content, String
+#   key :published, Date
+# end
+
 
 DataMapper.setup(:default, ENV['DATABASE_URL'] || "sqlite3://#{Dir.pwd}/feeds.db")
 
@@ -22,8 +30,8 @@ class Entry
   include DataMapper::Resource
   
   property :id, Serial
-  property :feed_url, Text, :required => true
-  property :title, Text, :required => true
+  property :feed_url, Text, :required => true #String has default max length of 50
+  property :title, Text, :required => true #Using Text instead
   property :url, Text, :required => true
   property :author, Text
   property :content, Text, :required => true

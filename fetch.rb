@@ -1,6 +1,6 @@
 # !/usr/bin/env ruby
 # --
-# fetch.rb --- 
+# FeedZirra.rb --- 
 #
 # Copyright (C) 2013  Sun Wenxiang<Tsgzj>
 # Create: Wed Dec 25 10:26:40 2013
