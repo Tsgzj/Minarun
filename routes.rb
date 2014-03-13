@@ -20,7 +20,9 @@ get '/feeds' do
   slim :feed
 end
 
-#post '/feeds' do
+post '/feeds' do
+  
+end
 
 not_found do
   "Whoops! You requested a route that wasn't available."
