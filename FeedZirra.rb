@@ -10,6 +10,8 @@
 #
 require 'feedzirra'
 require 'data_mapper'
+require 'similarity'
+require 'nokogiri'
 require "./model"
 
 Feed.all.each do |e|
@@ -24,6 +26,27 @@ Feed.all.each do |e|
   
   e.update(last_modified: feed.last_modified) #update the modified time for next fetch
 end
+
+all = Array.new
+corpus = Corpus.new
+
+Entry.all.each do |e|
+  all.insert(all.length, Nokogiri::HTML(e.content).text)
+end
+
+all.each do |headline|
+  # create a document object from the headline
+  document = Document.new(:content => headline)
+  
+  # add the document to the corpus
+  corpus << document
+end
+
+# Print a list of unique terms extracted from the documents
+puts corpus.terms
+
+# Calculate the similarity matrix between all the documents
+puts corpus.similarity_matrix
 
 
 
