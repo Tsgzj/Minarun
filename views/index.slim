@@ -5,7 +5,7 @@ html
       
   body
     h1 An RSS reader filter duplications
-    - @entries.each do |entry|
+    - @entries.all(:limit => 50, :order => [:published.desc]).each do |entry|
        = entry.title
        == entry.content
                           

@@ -11,12 +11,12 @@
 #
 # routes
 get '/' do
-  @entries = Entry.all
+  @entries = Entry
   slim :index
 end
 
 get '/feeds' do
-  @feeds = Feed.all
+  @feeds = Feed
   slim :feed
 end
 
