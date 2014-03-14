@@ -1,0 +1,20 @@
+.page {
+    width: 658px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    padding: 45px 70px;
+    color: black;
+    background: white;
+    border: 1px solid #c3c3c3;
+    position: relative;
+    overflow: hidden;
+    -webkit-transition: height .5s ease-out;
+}
+
+img{   
+    border-radius: 6px;
+    display: block;
+    height: auto;
+    max-width: 100%;
+} 

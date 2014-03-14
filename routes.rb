@@ -32,7 +32,7 @@ post '/feeds' do
 end
 
 delete '/feeds/:id' do
-  Entry.get(:feed_url => Feed.get(params[:id]).feed_url).destroy
+  #Entry.get(:feed_url => Feed.get(params[:id]).feed_url).destroy
   Feed.get(params[:id]).destroy
   redirect '/feeds'
 end
