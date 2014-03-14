@@ -15,16 +15,28 @@ get '/' do
   slim :index
 end
 
+get '/dup' do
+  @dup = Duplicate
+  slim :dup
+end
+
 get '/feeds' do
   @feeds = Feed
-  slim :feed
+  slim :feeds
 end
 
 post '/feeds' do
-  
+  Feed.create params[:feed]
+  Feed.last.update(last_modified: DateTime.parse("1999 mar 1"))
+  redirect '/feeds'
 end
 
-not_found do
-  "Whoops! You requested a route that wasn't available."
+delete '/feeds/:id' do
+  Entry.get(:feed_url => Feed.get(params[:id]).feed_url).destroy
+  Feed.get(params[:id]).destroy
+  redirect '/feeds'
 end
 
+# not_found do
+#   "Whoops! You requested a route that wasn't available."
+# end

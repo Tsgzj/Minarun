@@ -29,23 +29,37 @@ DataMapper.setup(:default, ENV['DATABASE_URL'] || "sqlite3://#{Dir.pwd}/feeds.db
 class Entry
   include DataMapper::Resource
   
-  property :id, Serial
-  property :feed_url, Text, :required => true #String has default max length of 50
-  property :title, Text, :required => true #Using Text instead
-  property :url, Text, :required => true
-  property :author, Text
-  property :content, Text, :required => true
+  property :id,        Serial
+  property :feed_url,  Text, :required => true #String has default max length of 50
+  property :title,     Text, :required => true #Using Text instead
+  property :url,       Text, :required => true
+  property :author,    Text
+  property :content,   Text, :required => true
   property :published, DateTime
 end
 
 class Feed
   include DataMapper::Resource
   
-  property :id, Serial
-  property :title, Text
-  property :custom_title, Text
-  property :feed_url, Text, :required => true, :unique => true
+  property :id,            Serial
+  property :title,         Text
+  property :feed_url,      Text, :required => true, :unique => true
   property :last_modified, DateTime
+end
+
+class Duplicate
+  include DataMapper::Resource
+  
+  property :id, Serial
+  property :feed1_url,  Text, :required => true
+  property :feed2_url,  Text, :required => true
+  property :title1,     Text
+  property :title2,     Text
+  property :author1,    Text
+  property :author2,    Text
+  property :content1,   Text
+  property :content2,   Text
+  property :similarity, Float
 end
 
 DataMapper.finalize

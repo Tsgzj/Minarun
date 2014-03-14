@@ -1,12 +1,9 @@
-doctype html
-html
-  head
-    title Feeds
+li.feed id=feed.id
+  = feed.title
+  br
+  = feed.feed_url
+  form.delete action="/feeds/#{feed.id}" method="POST"
+    input type="hidden" name="_method" value="DELETE"
+    input type="submit" value="Unsubscribe" title="Unsubscribe"
       
-  body
-    h1 List of your Feeds
-    - @feeds.each do |feed|
-      tr
-        td.title = feed.title
-        td.feed_url = feed.feed_url
-          
+      

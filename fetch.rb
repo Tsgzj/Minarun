@@ -10,7 +10,8 @@
 #
 require 'feedzirra'
 require 'data_mapper'
-require 'similarity'
+require 'matrix'
+require 'tf-idf-similarity'
 require 'nokogiri'
 require "./model"
 
@@ -22,38 +23,47 @@ Feed.all.each do |e|
     # and then compare them
     # TODO
     # There may be some better solution
+    # they find if there is any duplicate
+    
     if DateTime.parse(entry.published.to_s) > DateTime.parse(e.last_modified.to_s)
-      Entry.create(title: entry.title, feed_url: e.feed_url, url: entry.url, author: entry.author, content: entry.content, published: entry.published)
-      puts "update!"
+      doc1 = TfIdfSimilarity::Document.new(Nokogiri::HTML(entry.content).text)
+      dup = false
+      Entry.all(:limit => 20, :order => [:published.desc]).each do |compare|
+        doc2 = TfIdfSimilarity::Document.new(Nokogiri::HTML(compare.content).text)
+        
+        #puts compare.id.to_s
+        corpus = []
+        corpus << doc1
+        corpus << doc2
+        
+        model = TfIdfSimilarity::TfIdfModel.new(corpus)
+        similar = model.similarity_matrix[0,1]
+        
+        #puts similar.similarity_matrix[0,1]
+        if similar > 0.8
+          #puts "Duplicate!" + similar.to_s + doc1.content + doc2.content
+          Duplicate.create(feed_url1: entry.url,    feed_url2: compare.url,
+                           title1: entry.title,     title2: compare.title,
+                           author1: entry.author,   author2: compare.author,
+                           content1: entry.content, content2: compare.content,
+                           similarity: similar)
+          dup = true
+          break
+        end
+      end
+      
+      if !dup
+        Entry.create(title: entry.title,
+                   feed_url: e.feed_url,
+                   url: entry.url,
+                   author: entry.author,
+                   content: entry.content,
+                   published: entry.published)
+        puts "update!"
+      end
     end
   end
   
-  e.update(last_modified: feed.last_modified) #update the modified time for next fetch
+  e.update(title: feed.title,
+           last_modified: feed.last_modified) #update the modified time for next fetch
 end
-
-all = Array.new
-corpus = Corpus.new
-
-Entry.all.each do |e|
-  all.insert(all.length, Nokogiri::HTML(e.content).text)
-end
-
-all.each do |headline|
-  # create a document object from the headline
-  document = Document.new(:content => headline)
-  
-  # add the document to the corpus
-  corpus << document
-end
-
-# Print a list of unique terms extracted from the documents
-puts corpus.terms
-
-# Calculate the similarity matrix between all the documents
-# TODO
-# Find duplicated entry while fetching them or in the slim template
-# which is better?
-puts corpus.similarity_matrix
-
-
-
