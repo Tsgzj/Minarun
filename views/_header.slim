@@ -14,26 +14,26 @@
 <script src="js/jquery.tagsinput.js"></script>
 <script src="js/jquery.placeholder.js"></script>
 
-.container
-  .demo-panel-title
-    .row-demo-row
-      .col-xs-6
-        .navbar.navbar-inverse
-          .navbar-header
-            ul.nav.navbar-nav
-              li
-                a href="/" Home
-              li
-                a href="/feeds" Feeds
-              li
-                a href="/duplicate" Duplicate
-              li
-                a href="/about" About
-              
-          
 
-                
-                
-                
-                  
-                  
+
+.navbar.navbar-default
+  .navbar-brand
+    a href="/" Minarun
+  ul.nav.navbar-nav
+    li
+      a href="/feeds" Feeds
+    li
+      a href="/duplicate" Duplicate
+    li
+      a href="/about" About
+    li.navbar-form.navbar-left
+      form role="search" action="/search" method="POST"
+        input.form-control type="text" name="query" placeholder="search"
+          input.btn type="submit" value="GO"
+          
+            
+        
+            
+
+            
+        

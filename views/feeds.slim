@@ -2,22 +2,21 @@ doctype html
 html
   head
     title Feeds
-    
+      
   body
     == slim :_header
-
+    /== erb :_header
+    
     .container
       form action="/feeds" method="POST"
         .col-xs-3
           input.form-control type="text" name="feed[feed_url]" placeholder="Feed URL"
         input.btn type="submit" value="New Feed >>"
-        
+          
     .container
       ul.feeds
-        - @feeds.all.each do |feed|
+        - @feeds.each do |feed|
           == slim :feed, locals: { feed: feed }
-      
-        
-    
+          
           
           

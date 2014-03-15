@@ -11,6 +11,7 @@
 require 'feedzirra'
 require 'data_mapper'
 require 'matrix'
+require 'gsl'
 require 'tf-idf-similarity'
 require 'nokogiri'
 require "./model"
@@ -36,7 +37,7 @@ Feed.all.each do |e|
         corpus << doc1
         corpus << doc2
         
-        model = TfIdfSimilarity::TfIdfModel.new(corpus)
+        model = TfIdfSimilarity::TfIdfModel.new(corpus, :library =>  :gsl)
         similar = model.similarity_matrix[0,1]
         
         #puts similar.similarity_matrix[0,1]
