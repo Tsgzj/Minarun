@@ -1,0 +1,18 @@
+doctype html
+html
+  head
+    title Duplicate
+      
+
+  body
+    == slim :_header
+  
+    .container
+      - @dup.all(:limit => 30).each do |d|
+        ul.d
+          li.h5 =d.title1
+          li.h5 =d.title2
+          .page == d.content1
+          .page == d.content2
+          h1 =d.similarity
+                      

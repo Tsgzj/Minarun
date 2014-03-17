@@ -15,11 +15,6 @@ get '/' do
   slim :index
 end
 
-get '/dup' do
-  @dup = Duplicate
-  slim :dup
-end
-
 get '/feeds' do
   @feeds = Feed.all
   slim :feeds
@@ -41,10 +36,16 @@ post '/search' do
 end
 
 delete '/feeds/:id' do
-  #Entry.get(:feed_url => Feed.get(params[:id]).feed_url).destroy
+  Entry.get(:feed_url => Feed.get(params[:id]).feed_url).destroy
   Feed.get(params[:id]).destroy
   redirect '/feeds'
 end
+
+get '/duplicate' do
+  @dup = Duplicate
+  slim :dup
+end
+
 
 # not_found do
 #   "Whoops! You requested a route that wasn't available."
