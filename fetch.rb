@@ -41,9 +41,9 @@ Feed.all.each do |e|
         similar = model.similarity_matrix[0,1]
         
         #puts similar.similarity_matrix[0,1]
-        if similar > 0.8
+        if similar > 0.5
           #puts "Duplicate!" + similar.to_s + doc1.content + doc2.content
-          Duplicate.create(feed_url1: entry.url,    feed_url2: compare.url,
+          Duplicate.create(feed1_url: entry.url,    feed2_url: compare.url,
                            title1: entry.title,     title2: compare.title,
                            author1: entry.author,   author2: compare.author,
                            content1: entry.content, content2: compare.content,
