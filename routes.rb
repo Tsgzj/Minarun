@@ -11,7 +11,7 @@
 #
 # routes
 get '/' do
-  @entries = Entry
+  @entries = Entry.order_by(:published.desc)
   slim :index
 end
 
@@ -35,8 +35,9 @@ post '/search' do
 end
 
 delete '/feeds/:id' do
-  Entry.get(:feed_url => Feed.get(params[:id]).feed_url).destroy
-  Feed.get(params[:id]).destroy
+  feed = Feed.only(:_id).find(params[:id])
+  feed.entries.destroy
+  feed.destroy
   redirect '/feeds'
 end
 
