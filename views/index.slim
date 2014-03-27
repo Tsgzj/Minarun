@@ -2,13 +2,15 @@ doctype html
 html
   head
     title Minarun
-      
+    
   body
     == slim :_header
-    
+  
     .container
-      - @entries.all(:limit => 50, :order => [:published.desc]).each do |entry|
-        == slim :entry, locals: { entry: entry }        
+      - @entries.all.each do |e|
+        == slim :entry, locals: { entry: e }        
         
+          
         
-        
+          
+          

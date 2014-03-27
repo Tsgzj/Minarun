@@ -11,7 +11,7 @@
 #
 # routes
 get '/' do
-  @entries = Entry.all
+  @entries = Entry
   slim :index
 end
 
@@ -22,12 +22,11 @@ end
 
 post '/feeds' do
   Feed.create params[:feed]
-  Feed.last.update(last_modified: DateTime.parse("1999 mar 1"))
   redirect '/feeds'
 end
 
 get '/get/:query' do
-  @entries = Entry.all(:title.like => "%#{params[:query]}%") | Entry.all(:content.like => "%#{params[:query]}%") 
+  @entries = Entry.full_text_search("#{params[:query]}")
   slim :index
 end
 

@@ -9,12 +9,16 @@
 # Organization: Nanjing University
 #
 require 'sinatra'
-require 'data_mapper'
+#require 'data_mapper'
 require 'slim'
+require 'mongo'
+require 'mongoid'
+require 'mongoid_search'
 require "./routes"
 require "./model"
 require "./helpers"
 #require 'mongo'
 #require 'mongo_mapper'
-#require 'bson'
+require 'bson'
 
+Mongoid.load!("Mongoid.yml")
