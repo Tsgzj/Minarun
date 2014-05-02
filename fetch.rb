@@ -56,17 +56,17 @@ Feed.all.each do |e|
       
       if !dup
         e.entries.create(title: entry.title,
-                            url: entry.url,
-                            author: entry.author,
-                            content: entry.content,
-                            published: entry.published)
+                         url: entry.url,
+                         author: entry.author,
+                         content: entry.content,
+                         published: entry.published)
         puts "update!"
       end
     end
     
   end
-  
-  e.update(title: feed.title,
+
+  e.update(title: feed.title, 
            last_modified: feed.last_modified) #update the modified time for next fetch
 end
 

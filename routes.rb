@@ -10,10 +10,16 @@
 #
 #
 # routes
+require 'feedzirra'
 get '/' do
   @entries = Entry.order_by(:published.desc)
   slim :index
 end
+
+get '/entry' do
+  redirect '/'
+end
+
 
 get '/feeds' do
   @feeds = Feed.all
@@ -21,17 +27,24 @@ get '/feeds' do
 end
 
 post '/feeds' do
-  Feed.create params[:feed]
+  f_url = params[:feed]["feed_url"]
+  get = true
+  feed = Feedzirra::Feed.fetch_and_parse(f_url,
+         :on_failure =>
+         lambda{|feed, f_url| get = false})
+  if get
+    Feed.create(title: feed.title, feed_url: f_url)
+  end
   redirect '/feeds'
 end
 
-get '/get/:query' do
+get '/entry/:query' do
   @entries = Entry.full_text_search("#{params[:query]}")
   slim :index
 end
 
 post '/search' do
-  redirect "/get/#{params[:query]}"
+  redirect "/entry/#{params[:query]}"
 end
 
 delete '/feeds/:id' do

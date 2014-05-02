@@ -20,5 +20,6 @@ require "./helpers"
 #require 'mongo'
 #require 'mongo_mapper'
 require 'bson'
+enable :sessions
 
 Mongoid.load!("Mongoid.yml")
