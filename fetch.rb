@@ -28,27 +28,35 @@ Feed.all.each do |e|
     # they find if there is any duplicate
     
     if DateTime.parse(entry.published.to_s) > DateTime.parse(e.last_modified.to_s)
-      doc1 = TfIdfSimilarity::Document.new(Nokogiri::HTML(entry.content).text)
+      doc1_content = TfIdfSimilarity::Document.new(Nokogiri::HTML(entry.content).text)
+      doc1_title = TfIdfSimilarity::Document.new(entry.title)
       dup = false
       Entry.all.each do |compare|
-        doc2 = TfIdfSimilarity::Document.new(Nokogiri::HTML(compare.content).text)
-        
+        doc2_content = TfIdfSimilarity::Document.new(Nokogiri::HTML(compare.content).text)
+        doc2_title = TfIdfSimilarity::Document.new(compare.title)
+
         #puts compare.id.to_s
-        corpus = []
-        corpus << doc1
-        corpus << doc2
+        corpus_content = []
+        corpus_content << doc1_content
+        corpus_content << doc2_content
+
+        corpus_title = []
+        corpus_title << doc1_title
+        corpus_title << doc2_title
         
-        model = TfIdfSimilarity::TfIdfModel.new(corpus, :library =>  :gsl)
-        similar = model.similarity_matrix[0,1]
-        
-        #puts similar.similarity_matrix[0,1]
-        if similar > 0.5
-          #puts "Duplicate!" + similar.to_s + doc1.content + doc2.content
+        model_content = TfIdfSimilarity::TfIdfModel.new(corpus_content, :library =>  :gsl)
+        model_title = TfIdfSimilarity::TfIdfModel.new(corpus_title, :library => :gsl)
+
+        similar_content = model_content.similarity_matrix[0,1]
+        similar_title = model_title.similarity_matrix[0,1]
+
+        if similar_content > 0.24 || similar_title > 0.5
+          puts "Duplicate!" + entry.title + " " + compare.title + "Title_similarity: #{similar_title} Content Similarity: #{similar_content}"
           Duplicate.create(feed_url1: entry.url,    feed_url2: compare.url,
                            title1: entry.title,     title2: compare.title,
                            author1: entry.author,   author2: compare.author,
-                           content1: entry.content, content2: compare.content,
-                           similarity: similar)
+                           content1: entry.content, content2: compare.content
+                           )
           dup = true
           break
         end
